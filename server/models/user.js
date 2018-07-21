@@ -29,7 +29,7 @@ const UserSchema = new Schema({
     { timestamps: true
 
 })
-
+//operations performed before post to db
 UserSchema.pre('save', function(next) {
     const user = this,
         SALT_FACTOR = 5
