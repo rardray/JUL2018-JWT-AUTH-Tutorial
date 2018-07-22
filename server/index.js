@@ -3,10 +3,14 @@ const express = require('express'),
     logger = require('morgan'),
     config = require('./config/main'),
     mongoose = require('mongoose'),
-    bodyParser = require('body-parser')
+    bodyParser = require('body-parser'),
+    socketEvents = require('./socketEvents')
 const router = require('./router')
 const server = app.listen(config.port)
 console.log('Server running on ' + config.port)
+const io = require('socket.io').listen(server)
+
+socketEvents(io)
 
 mongoose.connect(config.database)
 
