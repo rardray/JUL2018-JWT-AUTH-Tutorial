@@ -6,7 +6,7 @@ const mongoose = require('mongoose'),
 const UserSchema = new Schema({
     email:{
         type: String,
-        lowercase: true,
+        lowercase: false,
         unique: true,
         required: true
     },
