@@ -8,16 +8,16 @@ const express = require('express'),
 const router = require('./router')
 const server = app.listen(config.port)
 console.log('Server running on ' + config.port)
-const io = require('socket.io').listen(server)
+const io = require('socket.io').listen(server) //<--- start io listener on configured port
 
-socketEvents(io)
+socketEvents(io) //<--- start socket.io
 
 mongoose.connect(config.database)
 
 app.use(logger('dev'))
 app.use(bodyParser.urlencoded({extended : false}))
 app.use(bodyParser.json())
-
+//cors
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*')
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS')
@@ -26,4 +26,4 @@ app.use(function(req, res, next) {
     next()
 })
 
-router(app)
+router(app) //<--- run router

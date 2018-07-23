@@ -34,12 +34,12 @@ exports.getConversations = function(req, res, next) { //<-- function gets one me
     })
 }
 
-exports.getConversation = (function(req, res, next){
+exports.getConversation = (function(req, res, next){  // exported function in routes to retrieve my convo id
     Message.find({conversationId: req.params.conversationId })
     .select('createdAt body author')
     .sort('-createdAt')
     .populate({
-        path: 'author',
+        path: 'author',  // < --- sets first and last name to author field
         select: 'profile.firstName profile.lastName'
     })
     .exec(function(err, messages) {
@@ -51,7 +51,7 @@ exports.getConversation = (function(req, res, next){
     })
 })
 
-exports.newConversation = function(req, res, next) {
+exports.newConversation = function(req, res, next) { //<--- write new message
     if(!req.params.recipient) {
         res.status(422).send({ error: 'please choose valid recipient'})
     }

@@ -26,11 +26,11 @@ const UserSchema = new Schema({
     resetPasswordToken: {type: String},
     resetPasswordExpires: {type: Date},
 },
-    { timestamps: true
+    { timestamps: true //<--- remember to add for sort etc
 
 })
 //operations performed before post to db
-UserSchema.pre('save', function(next) {
+UserSchema.pre('save', function(next) {  //<---- this is where user data collection is set as user (user = this)
     const user = this,
         SALT_FACTOR = 5
     if (!user.isModified('password')) return next()
@@ -44,7 +44,7 @@ UserSchema.pre('save', function(next) {
  })
 })
 
-UserSchema.methods.comparePassword = function(candidatePassword, cb) {
+UserSchema.methods.comparePassword = function(candidatePassword, cb) { //<--- match password to hashed password
     bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
         if (err) {return cb(err)}
         cb(null, isMatch)

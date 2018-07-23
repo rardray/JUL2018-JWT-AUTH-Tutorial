@@ -4,13 +4,13 @@ const jwt = require('jsonwebtoken'),
     User = require('../models/user'),
     config = require('../config/main')
 
-function generateToken(user) {
+function generateToken(user) {  //<---- generate token
     return jwt.sign(user, config.secret, {
         expiresIn: 10080
     })
 }
 
-function setUserInfo(request) {
+function setUserInfo(request) { //<--- set info for cookie.. no sensitive like password
     return {
         _id: request._id,
         firstName: request.profile.firstName,
@@ -19,9 +19,9 @@ function setUserInfo(request) {
         role: request.role,
     }
 }
-//login route
+//login route : used in router.js api/auth/login
 exports.login = function(req, res, next) {
-    let userInfo = setUserInfo(req.user)
+    let userInfo = setUserInfo(req.user)  // <---take submitted data set then generate token and user
     res.status(200).json({
         token: 'JWT ' + generateToken(userInfo),
         user: userInfo
@@ -30,7 +30,8 @@ exports.login = function(req, res, next) {
 //registration route
 
 exports.register = function(req, res, next) {
-    const email= req.body.email
+   // try writing as destructured objects???
+    const email= req.body.email  
     const firstName = req.body.firstName
     const lastName = req.body.lastName
     const password = req.body.password
@@ -60,14 +61,14 @@ exports.register = function(req, res, next) {
             if (err) {return next(err)}
             let userInfo = setUserInfo(user)
             res.status(201).json({
-                token: 'JWT ' + generateToken(userInfo),
+                token: 'JWT ' + generateToken(userInfo), // <---generate token 
                 user: userInfo
             })
         })
     })
 }
 
-exports.roleAuthorization = function(role) {
+exports.roleAuthorization = function(role) { //<--- role authorization.  not implemented yet
     return function(req, res, next) {
         const user = req.user
         User.findById(user._id, function(err, foundUser){

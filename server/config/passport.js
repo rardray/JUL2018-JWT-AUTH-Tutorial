@@ -6,7 +6,7 @@ const passport = require('passport'),
     LocalStrategy = require('passport-local')
 
 
-const localOptions = {usernameField: 'email'}
+const localOptions = {usernameField: 'email'} //<--- opt for email field for usernameField
 
 const localLogin = new LocalStrategy(localOptions,function(email, password, done){
     User.findOne({email: email}, function(err, user){
@@ -21,8 +21,8 @@ const localLogin = new LocalStrategy(localOptions,function(email, password, done
 })
 
 const jwtOptions = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('jwt'),
-    secretOrKey: config.secret
+    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('jwt'), //<--- check for authorization headers
+    secretOrKey: config.secret  //--- find secret key
 }
 
 const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done){
@@ -35,6 +35,6 @@ const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done){
         }
     })
 })
-
+// passing defined strategies for passport to use
 passport.use(jwtLogin)
 passport.use(localLogin)
