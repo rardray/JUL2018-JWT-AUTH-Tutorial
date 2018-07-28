@@ -76,7 +76,7 @@ exports.newConversation = function(req, res, next) { //<--- write new message
                 res.send({error: err})
                 return next(err)
             }
-            res.status(200).json({message: 'Conversation Started', conversationId: conversation._id})
+            res.status(200).json({message: 'Conversation Started', conversationId: conversation._id})// <--- sends new convo id to client
             return next()
         })
     })

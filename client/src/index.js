@@ -14,5 +14,5 @@ import { CookiesProvider } from 'react-cookie';
 import axios from 'axios'
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<CookiesProvider><App /></CookiesProvider>, document.getElementById('root'));
+ReactDOM.render(<CookiesProvider><Router><Route path = '/' component = {App} /></Router></CookiesProvider>, document.getElementById('root'));
 registerServiceWorker();

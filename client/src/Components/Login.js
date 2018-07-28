@@ -7,12 +7,16 @@ import {
 } from 'react-router-dom';
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
-import './stylesheets/App.css';
 import axios from 'axios'
+import {loginUser} from './Actions/actions'
 
 
-
-
+function log(resData) {
+    return {
+      authenticated: true, user: resData
+    }
+  }
+  const LOGIN = 'login'
 class Login extends Component {
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired
@@ -20,8 +24,11 @@ class Login extends Component {
     constructor(props) {
         super(props)
         const {cookies} = props
-        this.state = {email: '', password: ''}
+        this.defaultState = {email: '', password: ''}
+        this.state = this.defaultState
     }
+
+    
     handleChange = (e) => {
         const target = e.target
         const value = target.value
@@ -32,13 +39,14 @@ class Login extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault()
-        const { email, password } = this.state
-        this.props.loginUser( email, password )
-        this.setState({email: '', password: ''})
+        this.props.loginUser( this.state, LOGIN, log)
+       
     }
     render() {
+        const {name} = this.state
         return(
             <div>
+                <p>{name}</p>
                 <form onSubmit = {this.handleSubmit}>
                 <input name = "email" type = "text" value = {this.state.email} onChange = {this.handleChange.bind(this)}/>
                 <input name = "password" type = "password" value = {this.state.password} onChange = {this.handleChange.bind(this)}/>
