@@ -17,6 +17,7 @@ function log(resData) {
     }
   }
   const LOGIN = 'login'
+  
 class Login extends Component {
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired
@@ -43,10 +44,8 @@ class Login extends Component {
        
     }
     render() {
-        const {name} = this.state
         return(
             <div>
-                <p>{name}</p>
                 <form onSubmit = {this.handleSubmit}>
                 <input name = "email" type = "text" value = {this.state.email} onChange = {this.handleChange.bind(this)}/>
                 <input name = "password" type = "password" value = {this.state.password} onChange = {this.handleChange.bind(this)}/>
